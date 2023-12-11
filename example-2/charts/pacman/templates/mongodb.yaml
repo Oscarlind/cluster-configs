@@ -56,5 +56,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.pvcSize }}
+      storage: {{ .Values.mongodb.pvcSize }}
 {{- end }}
