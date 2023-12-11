@@ -1,4 +1,3 @@
-{{- if .Values.mongodb.enabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -6,9 +5,9 @@ metadata:
   labels:
     name: mongo
   name: mongo
-  namespace: {{ .Values.namespace }}
+  namespace: PATCH_ME
 spec:
-  replicas: {{ .Values.mongodb.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       name: mongo
@@ -37,7 +36,6 @@ metadata:
   labels:
     name: mongo
   name: mongo
-  namespace: {{ .Values.namespace }}
 spec:
   type: ClusterIP
   ports:
@@ -50,11 +48,9 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: mongo-storage
-  namespace: {{ .Values.namespace }}
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.mongodb.pvcSize }}
-{{- end }}
+      storage: 8Gi

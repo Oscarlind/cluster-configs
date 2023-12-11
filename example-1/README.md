@@ -1,37 +1,45 @@
 # Cluster-configuration
 This repository contains
-* cluster-configuration in the form of Helm charts.
+* cluster-configuration in the form of Kustomize manifests.
 * Representations of OpenShift environments in the form of subdirectories in clusters/$cluster
 
 ## Overview
-The repository structure looks like this. Under **charts** we have the cluster configuration, such as image-registry, logging stack, monitoring etc. templated in their own Helm charts.
+The repository structure looks like this. Under **base** we have the cluster configuration, such as image-registry, logging stack, monitoring etc. templated as Kustomize manifests.
 
 In the **clusters** directory we have sub-directories for each cluster, e.g. **dev, prod** etc. 
 
 For each cluster in **clusters/$cluster** such as **clusters/dev** an [App Of Apps Pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern) is being used for the cluster-configuration.
 
 ```bash
-├── charts                 # 1
-│   └── image-registry
-│       └── templates
-└── clusters               # 2
+├── base                   # 1
+│   └── pacman
+│       └── resources
+├── clusters               # 2
+│   ├── dev
+│   ├── non-prod           # 3
+│   ├── prod
+│   └── sandbox
+└── overlays               # 4
     ├── dev
-    ├── non-prod           # 3
+    │   └── pacman
+    │       └── resources
+    ├── non-prod
     ├── prod
-    ├── sandbox
+    └── sandbox
 ```
-In this structure, we add [ArgoCD Applications](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#applications) under the **Cluster Name** that we want to deploy to. For example *dev*. This ArgoCD application will then point to a helm chart in the **charts** directory on the top level.
+In this structure, we add [ArgoCD Applications](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#applications) under the **Cluster Name** that we want to deploy to. For example *dev*. This ArgoCD application will then point to an [overlay](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#bases-and-overlays) that uses the **base** directory on the top level.
 
 1. Location for our cluster configuration
 2. Directory containing our clusters
 3. Sub-directory for a cluster
+4. Location for our customizations (changes) to our base.
 
 Each cluster would get ArgoCD installed with a pointer to the specific directory in this tree above, that matches the requirements. For example, **dev** on **clusters** would have have the pointer:
 
 ```yaml
   source:
-    path: "clusters/dev"
-    repoURL: "ssh://git@github.com/oscarlind/cluster-configs.git
+    path: "example-1/clusters/dev"
+    repoURL: "https://git@github.com/oscarlind/cluster-configs
 ```
 ## Usage
 
@@ -45,8 +53,9 @@ Each cluster has a directory:
 - [non-prod](./clusters/non-prod/)
 - [prod](./clusters/prod/)
 
-1. Add Kubernetes manifests inside a new folder, for example charts/my-new-configuration.
-2. Add an Argo Application in the specific directory, for example in clusters/dev, pointing to the new chart:
+1. Add Kubernetes manifests inside a new folder, for example base/my-new-configuration.
+2. Create an overlay with the required customizations, for example overlays/my-new-configuration.
+3. Add an Argo Application in the specific directory, for example in clusters/dev, pointing to the specific overlay:
 
     ```yaml
     apiVersion: argoproj.io/v1alpha1
@@ -59,20 +68,16 @@ Each cluster has a directory:
         source:
             repoURL: ssh://git@github.com/oscarlind/cluster-configs.git                  # < The configuration repository (2)
             targetRevision: master                                                       # < Branch - main or master      (3)
-            path: charts/my-new-configuration                                            # < Path to the actual chart     (4)
-        helm:
-          valueFiles:
-            - values-example.yaml                                                        # < Value file containing variable values (5)
+            path: overlays/dev/my-new-configuration                                      # < Path to our customization    (4)
         destination:
             server: https://kubernetes.default.svc
-            namespace: my-new-namespace                                                  # < Namespace to deploy helm chart to (6)
+            namespace: my-new-namespace                                                  # < Namespace to deploy the manifests to (5)
     ```
-    1. This is the namespace the ArgoCD application itself will be deployed to. This is **NOT** the actual content of the helm chart
-    2. Point to the repository containing the cluster-configuration. This should be the base of the repository where the helm charts reside
+    1. This is the namespace the ArgoCD application itself will be deployed to. This is **NOT** the actual content of the manifests
+    2. Point to the repository containing the cluster-configuration. This should be the overlay of the manifests that we want to deploy
     3. The branch that is being used. Usually "Main" or "Master" when using common and simple branching strategies for GitOps [Read more](https://github.com/oscarlind/cluster-configs#why-not-environment-branches)
-    4. This is the actual helm chart, containing the cluster-configuration that should be deployed. Can be, LDAP, Monitoring, Logging etc. Each component has it's own chart.
-    5. Points to the value file where we add our cluster specific details.
-    6. Namespace where the helm chart will be deployed to.
+    4. This is the overlay we will use, containing the cluster-configuration that should be deployed. Can be, LDAP, Monitoring, Logging etc. Each component has it's own chart.
+    5. Namespace where the manifests will be deployed to.
 
 
 
