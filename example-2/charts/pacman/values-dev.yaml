@@ -1,0 +1,10 @@
+namespace: example-namespace
+
+pacman:
+  enabled: true
+  replicas: 1
+
+mongodb:
+  enabled: true
+  replicas: 1
+  pvcSize: 8Gi

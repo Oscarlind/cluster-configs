@@ -1,0 +1,9 @@
+namespace: dev-namespace
+pacman:
+  enabled: true
+  replicas: 3
+
+mongodb:
+  enabled: true
+  replicas: 1
+  pvcSize: 8Gi
