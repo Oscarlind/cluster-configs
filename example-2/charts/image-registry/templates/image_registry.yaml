@@ -1,0 +1,60 @@
+{{- if .Values.imageRegistry.persistent }}
+---
+apiVersion: imageregistry.operator.openshift.io/v1
+kind: Config
+metadata:
+  name: cluster
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+spec:
+  {{- if .Values.imageRegistry.infraNode }}
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  tolerations:
+  - effect: NoSchedule
+    key: infra
+    operator: Equal
+    value: reserved
+  - effect: NoExecute
+    key: infra
+    operator: Equal
+    value: reserved
+  {{- end }}
+  managementState: Managed
+  logging: 2
+  replicas: {{ .Values.imageRegistry.replicas }}
+  storage:
+    swift:
+      authURL: swift-url
+      authVersion: "3"
+      container: {{ .Values.imageRegistry.container }}
+      domain: Default
+      tenant: {{ .Values.imageRegistry.tenant }}
+{{- else }}
+---
+apiVersion: imageregistry.operator.openshift.io/v1
+kind: Config
+metadata:
+  name: cluster
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+spec:
+  {{- if .Values.imageRegistry.infraNode }}
+  nodeSelector:
+    node-role.kubernetes.io/infra: ""
+  tolerations:
+  - effect: NoSchedule
+    key: infra
+    operator: Equal
+    value: reserved
+  - effect: NoExecute
+    key: infra
+    operator: Equal
+    value: reserved
+  {{- end }}
+  storage:
+    emptyDir: {}
+  managementState: Managed
+  logging: 2
+  replicas: {{ .Values.imageRegistry.replicas }}
+{{- end }}
