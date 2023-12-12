@@ -5,10 +5,10 @@ metadata:
     name: pacman-example-1
     namespace: platform-gitops
 spec:
-    project: default
-    source:
-        repoURL: https://github.com/oscarlind/cluster-configs
-        targetRevision: main
-        path: example-1/overlays/dev/pacman
-    destination:
-        server: https://kubernetes.default.svc
+  project: default
+  source:
+      repoURL: https://github.com/oscarlind/cluster-configs
+      targetRevision: main
+      path: example-1/overlays/dev/pacman
+  destination:
+      server: https://kubernetes.default.svc

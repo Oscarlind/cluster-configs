@@ -5,13 +5,13 @@ metadata:
     name: pacman
     namespace: platform-gitops
 spec:
-    project: default
-    source:
-        repoURL: https://github.com/oscarlind/cluster-configs
-        targetRevision: main
-        path: example-2/charts/pacman
+  project: default
+  source:
+    repoURL: https://github.com/oscarlind/cluster-configs
+    targetRevision: main
+    path: example-2/charts/pacman
     helm:
       valueFiles:
       - values-dev.yaml
-    destination:
-        server: https://kubernetes.default.svc
+  destination:
+      server: https://kubernetes.default.svc
