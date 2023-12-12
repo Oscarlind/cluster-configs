@@ -1,7 +1,12 @@
 # cluster-configs
 Example repo showing some git structures for cluster config via GitOps. I have also included some good standards and practices.
 
-# Standard and good practices when working with GitOps
+## Repository Examples
+In the **example-N** directories, I've included some examples of GitOps patterns using both Helm and Kustomize. They are opiniated and a good default baseline that I've used at multiple different customers. 
+
+**example-1** and **example-2** are both defining the cluster by its own directory. This is populated by ArgoCD applications which makes use of either an *overlay* or a Helm chart with a cluster specific *values.yaml* file. Details are found in the respective directories README.md file.
+
+# Standards and Good Practices when working with GitOps
 When formulating standards its crucial to establish some principles and lean on them as baseline that we must follow and adhere.
 
 - **Do** use `yaml` extention for files.
@@ -42,4 +47,4 @@ Obviously this does not preclude using branches for updates, PRs, etc but these 
 * [opengitops](https://opengitops.dev/)
 * [What's new in Red Hat OpenShift](https://www.redhat.com/en/whats-new-red-hat-openshift)
 
-Based on these principle, Git should be source of truth for the state of the system. Any change in configuration should occur through git which is peer reviewed, tested by colleagues and CI System.
+Based on these principles, Git should be source of truth for the state of the system. Any change in configuration should occur through git which is peer reviewed, tested by colleagues and CI System.
