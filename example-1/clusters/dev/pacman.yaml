@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-    name: pacman
+    name: pacman-example-1
     namespace: platform-gitops
 spec:
     project: default
