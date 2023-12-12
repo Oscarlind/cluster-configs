@@ -7,7 +7,7 @@ metadata:
   name: mongo
   namespace: PATCH_ME
 spec:
-  replicas: 1
+  replicas: PATCH_ME
   selector:
     matchLabels:
       name: mongo

@@ -9,9 +9,6 @@ spec:
     source:
         repoURL: https://github.com/oscarlind/cluster-configs
         targetRevision: main
-        path: example-2/charts/pacman
-    helm:
-      valueFiles:
-      - values-example.yaml
+        path: example-1/overlays/dev/pacman
     destination:
         server: https://kubernetes.default.svc
