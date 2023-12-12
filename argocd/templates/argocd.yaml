@@ -1,0 +1,69 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  finalizers:
+  - argoproj.io/finalizer
+  name: platform-argocd
+  namespace: platform-gitops
+spec:
+  applicationInstanceLabelKey: argocd.argoproj.io/instance
+  controller:
+    logLevel: info
+    processors: {}
+    sharding: {}
+  grafana:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  ha:
+    enabled: false
+  initialSSHKnownHosts:
+    excludedefaulthosts: false
+  monitoring:
+    enabled: false
+  notifications:
+    enabled: false
+  prometheus:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  rbac:
+    policy: |
+      g, system:cluster-admins, role:admin
+    scopes: '[groups]'
+  redis: {}
+  resourceExclusions: |
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - '*'
+      kinds:
+      - PipelineRun
+  server:
+    autoscale:
+      enabled: false
+    grpc:
+      ingress:
+        enabled: false
+    ingress:
+      enabled: false
+    insecure: true
+    logLevel: info
+    route:
+      enabled: true
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge
+    service:
+      type: ""
+  sso:
+    dex:
+      openShiftOAuth: true
+    provider: dex
+  tls:
+    ca: {}
