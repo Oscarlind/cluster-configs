@@ -12,6 +12,6 @@ spec:
         path: example-2/charts/pacman
     helm:
       valueFiles:
-      - values-example.yaml
+      - values-dev.yaml
     destination:
         server: https://kubernetes.default.svc
