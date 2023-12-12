@@ -1,4 +1,4 @@
-namespace: example-namespace
+namespace: example-2
 
 pacman:
   enabled: true
