@@ -33,7 +33,7 @@ Obviously this does not preclude using branches for updates, PRs, etc but these 
 |id|  Principle      | Tool      | Capability - in the sense of a GitOps workflow                                                                                             |
 |--|-----------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------|
 |1 |  Declarative    | K8S/OpenShift | Express resources in a declarative manner                                                                                  |
-|2|  Versiond & Immutable    | GitHub    | Stores, version controls the definitions and provide auditing over time            |
+|2|  Versioned & Immutable    | GitHub    | Stores, version controls the definitions and provide auditing over time            |
 |3|  Pull Automatically    | ArgoCD    | Pull the defintions from source repositories. |
 |4|  Continuously Reconciled   | ArgoCD    | It sync the desired state to the cluster.|
 
