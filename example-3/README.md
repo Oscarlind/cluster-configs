@@ -1,27 +1,23 @@
 # Cluster-configuration
 This repository contains
 * cluster-configuration in the form of Kustomize manifests.
-* Representations of OpenShift environments in the form of subdirectories in clusters/$cluster
+* Representations of OpenShift environments in the form of subdirectories in overlays/$cluster
 
 ## Overview
 The repository structure looks like this. Under **base** we have the cluster configuration, such as image-registry, logging stack, monitoring etc. templated as Kustomize manifests.
 
-In the **clusters** directory we have sub-directories for each cluster, e.g. **dev, prod** etc. 
+In the **overlay** directory we have sub-directories for each cluster, e.g. **dev, prod** etc. 
 
-For each cluster in **clusters/$cluster** such as **clusters/dev** an [App Of Apps Pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern) is being used for the cluster-configuration.
+For each cluster in **overlays/$CLUSTER** such as **overlays/dev** an [App Of Apps Pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern) is being used for the cluster-configuration.
 
 ```bash
 ├── base                   # 1
 │   └── pacman
 │       └── resources
-├── clusters               # 2
-│   ├── dev
-│   ├── non-prod           # 3
-│   ├── prod
-│   └── sandbox
-└── overlays               # 4
+└── overlays               # 2
     ├── dev
     │   └── pacman
+    |       └── appliaction.yaml   #3
     │       └── resources
     ├── non-prod
     ├── prod
@@ -30,15 +26,14 @@ For each cluster in **clusters/$cluster** such as **clusters/dev** an [App Of Ap
 In this structure, we add [ArgoCD Applications](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#applications) under the **Cluster Name** that we want to deploy to. For example *dev*. This ArgoCD application will then point to an [overlay](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#bases-and-overlays) that uses the **base** directory on the top level.
 
 1. Location for our cluster configuration
-2. Directory containing our clusters
-3. Sub-directory for a cluster
-4. Location for our customizations (changes) to our base.
+2. Directory containing our clusters with specific patchs
+3. appofapp patterns 
 
-Each cluster would get ArgoCD installed with a pointer to the specific directory in this tree above, that matches the requirements. For example, **dev** on **clusters** would have have the pointer:
+Each cluster would get ArgoCD installed with a pointer to the specific directory in this tree above, that matches the requirements. For example, **dev** on **overlays** would have have the pointer:
 
 ```yaml
   source:
-    path: "example-1/clusters/dev"
+    path: "example-3/overlays/dev"
     repoURL: "https://git@github.com/oscarlind/cluster-configs
 ```
 ## Usage
@@ -49,13 +44,13 @@ That directory can be populated with helm charts and other yaml content.
 ### Add new cluster configuration
 Each cluster has a directory:
 
-- [dev](./clusters/dev/)
-- [non-prod](./clusters/non-prod/)
-- [prod](./clusters/prod/)
+- [dev](./overlays/dev/)
+- [non-prod](./overlays/non-prod/)
+- [prod](./overlays/prod/)
 
 1. Add Kubernetes manifests inside a new folder, for example base/my-new-configuration.
 2. Create an overlay with the required customizations, for example overlays/my-new-configuration.
-3. Add an Argo Application in the specific directory, for example in clusters/dev, pointing to the specific overlay:
+3. Add an Argo Application in the specific directory, for example in overlays/dev, pointing to the specific overlay:
 
     ```yaml
     apiVersion: argoproj.io/v1alpha1
