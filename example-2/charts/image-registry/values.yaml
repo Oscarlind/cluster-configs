@@ -1,6 +1,0 @@
-imageRegistry:
-  persistent: true
-  infraNode: true
-  replicas: 1
-  s3Endpoint: s3.CHANGEME
-  s3Bucket: <bucketName>
