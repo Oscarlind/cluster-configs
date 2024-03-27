@@ -1,0 +1,7 @@
+apiVersion: v2
+name: image-registry
+description: Image Registry for OpenShift Container Platform
+type: application
+version: 1.0.0
+maintainers:
+  - name: customer-platform-team
