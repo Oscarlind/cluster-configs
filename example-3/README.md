@@ -149,7 +149,7 @@ policyDefaults:
   controls:
   - CM Baseline Configuration
   standards:
-  - Baseline 2023v1
+  - Baseline 2024v1
   remediationAction: inform
   complianceType: musthave
   pruneObjectBehavior: "DeleteIfCreated"
