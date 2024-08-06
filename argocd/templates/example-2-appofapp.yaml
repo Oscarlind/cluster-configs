@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: appofapp
+  name: appofapp-2
   namespace: platform-gitops
 spec:
   destination:
@@ -10,7 +10,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: example-1/clusters/dev/appofapps
+    path: example-2/clusters/dev/
     repoURL: https://github.com/Oscarlind/cluster-configs.git
     targetRevision: main
   syncPolicy:
