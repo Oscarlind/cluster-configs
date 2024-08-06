@@ -8,7 +8,7 @@ default:
     autoSyncPrune: true
     project: cluster-config
     destination:
-      namespace: openshift-gitops
+      namespace: platform-gitops
       server: https://kubernetes.default.svc
     source:
       repoURL: git@github.com:Oscarlind/cluster-configs.git
@@ -19,7 +19,7 @@ projects:
     annotations:
       argocd.argoproj.io/sync-wave: "-2"
     description: Project for overall cluster configuration
-    namespace: openshift-gitops
+    namespace: platform-gitops
     sourceRepos:
       - git@github.com:Oscarlind/cluster-configs.git
     destinations: |
