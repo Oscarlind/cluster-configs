@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     path: example-1/clusters/dev/appofapps
-    repoURL: git@github.com:Oscarlind/cluster-configs.git
+    repoURL: https://github.com/Oscarlind/cluster-configs.git
     targetRevision: main
   syncPolicy:
     syncOptions:

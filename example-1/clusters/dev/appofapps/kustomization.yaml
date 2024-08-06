@@ -6,7 +6,7 @@ helmGlobals:
   chartHome: ../../../charts/
 
 helmCharts:
-  - name: argocd-app-of-app
+  - name: argocd-app-of-app-chart
     version: 0.4.1
     valuesFile: values.yaml
     namespace: platform-gitops
