@@ -7,6 +7,7 @@ metadata:
   name: platform-argocd
   namespace: platform-gitops
 spec:
+  kustomizeBuildOptions: --enable-alpha-plugins --enable-helm
   resourceTrackingMethod: annotation
   controller:
     logLevel: info

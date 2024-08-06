@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: appofapp
+  namespace: platform-gitops
+spec:
+  destination:
+    namespace: platform-gitops
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: example-1/clusters/dev/appofapps
+    repoURL: git@github.com:Oscarlind/cluster-configs.git
+    targetRevision: main
+  syncPolicy:
+    syncOptions:
+      - Validate=true
