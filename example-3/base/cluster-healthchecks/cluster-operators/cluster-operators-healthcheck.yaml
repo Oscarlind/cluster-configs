@@ -1,0 +1,30 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: ConfigurationPolicy
+metadata:
+  name: cluster-operators-healthcheck
+spec:
+  remediationAction: inform
+  severity: low
+  object-templates-raw: |
+    {{- range (lookup "config.openshift.io/v1" "ClusterOperator" "" "").items }}
+    {{- if eq .kind "ClusterOperator" }}
+    - complianceType: mustnothave
+      objectDefinition:
+        apiVersion: config.openshift.io/v1
+        kind: ClusterOperator
+        status:
+          conditions:
+            - status: 'False'
+              type: Available
+    {{- else }}
+    - complianceType: mustnothave
+      objectDefinition:
+        apiVersion: config.openshift.io/v1
+        kind: ClusterOperator
+        status:
+          conditions:
+            - status: 'True'
+              type: Degraded
+    {{- end }}
+    {{- end }}

@@ -1,0 +1,15 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: CertificatePolicy
+metadata:
+  name: openshift-cert-policy-mgr
+spec:
+  namespaceSelector:
+    include:
+    - openshift-config-managed
+    - openshift-kube-apiserver
+    - openshift-kube-scheduler
+    - openshift-kube-controller-manager
+  remediationAction: inform
+  minimumDuration: 24h
+  severity: low

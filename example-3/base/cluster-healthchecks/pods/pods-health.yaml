@@ -1,0 +1,66 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: ConfigurationPolicy
+metadata:
+  name: monitor-pending-pods
+spec:
+  remediationAction: inform
+  severity: medium
+  namespaceSelector:
+    exclude:
+    - default
+    include:
+    - '*'
+  object-templates:
+  - complianceType: mustnothave
+    objectDefinition:
+      apiVersion: v1
+      kind: Pod
+      status:
+        phase: Pending
+
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: ConfigurationPolicy
+metadata:
+  name: monitor-failed-pods
+spec:
+  remediationAction: inform
+  severity: medium
+  namespaceSelector:
+    exclude:
+    - default
+    include:
+    - '*'
+  object-templates:
+  - complianceType: mustnothave
+    objectDefinition:
+      apiVersion: v1
+      kind: Pod
+      status:
+        phase: Failed
+
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: ConfigurationPolicy
+metadata:
+  name: monitor-crash-pods
+spec:
+  remediationAction: inform
+  severity: medium
+  namespaceSelector:
+    exclude:
+    - default
+    include:
+    - '*'
+  object-templates:
+  - complianceType: mustnothave
+    objectDefinition:
+      apiVersion: v1
+      kind: Pod
+      status:
+        phase: Running
+        containerStatuses:
+        - state:
+            waiting:
+              reason: CrashLoopBackOff

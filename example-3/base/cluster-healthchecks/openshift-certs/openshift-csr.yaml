@@ -1,0 +1,14 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: CertificatePolicy
+metadata:
+  name: openshift-cert-policy-csr
+spec:
+  namespaceSelector:
+    include:
+    - openshift-kube-apiserver-operator
+    - openshift-kube-controller-manager-operator
+  remediationAction: inform
+  minimumDuration: 400h
+  minimumCADuration: 24h
+  severity: low

@@ -1,0 +1,15 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: ConfigurationPolicy
+metadata:
+  name: terminating-namespaces-healthcheck
+spec:
+  remediationAction: inform
+  severity: low
+  object-templates:
+  - complianceType: mustnothave
+    objectDefinition:
+      apiVersion: v1
+      kind: Namespace
+      status:
+        phase: Terminating

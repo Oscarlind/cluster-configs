@@ -1,0 +1,71 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: health-check
+
+placementBindingDefaults:
+  name: "placementbinding-health-check"
+
+policyDefaults:
+  namespace: policies-dev
+  consolidateManifests: false
+  categories:
+  - HM Health Management
+  controls:
+  - HM Health Checks
+  standards:
+  - Baseline 2024v1
+  remediationAction: inform
+  complianceType: musthave
+  pruneObjectBehavior: "DeleteIfCreated"
+
+policies:
+
+- name: cluster-operators-health-check
+  manifests:
+  - path: cluster-operators-health-check/
+  remediationAction: inform
+  controls:
+  - HM Cluster Operators
+
+- name: terminating-namespace
+  manifests:
+  - path: terminating-namespace/
+  remediationAction: inform
+  controls:
+  - HM Terminating Namespace
+
+- name: kubeadmin-user
+  manifests:
+  - path: kubeadmin-user/
+  remediationAction: inform
+  complianceType: mustnothave
+  controls:
+  - HM kubeadmin-user
+
+- name: openshift-certs
+  manifests:
+  - path: openshift-certs-health-check/
+  remediationAction: inform
+  controls:
+  - HM OpenShift Certs Health Check
+
+- name: pods-health-check
+  manifests:
+  - path: pods-health-check/
+  controls:
+  - HM OpenShift Pods Health Check
+
+policySets:
+- name: "cluster-health-checks"
+  description: "Health Checking different components in the system"
+  policies:
+  - cluster-operators-health-check
+  - terminating-namespace
+  - kubeadmin-user
+  - openshift-certs
+  - pods-health-check
+
+  placement:
+    placementPath: placement.yaml

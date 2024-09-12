@@ -1,0 +1,13 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: CertificatePolicy
+metadata:
+  name: openshift-cert-policy-ingress
+spec:
+  namespaceSelector:
+    include:
+    - openshift-ingress
+  remediationAction: inform
+  minimumDuration: 24h
+  minimumCADuration: 400h
+  severity: low
