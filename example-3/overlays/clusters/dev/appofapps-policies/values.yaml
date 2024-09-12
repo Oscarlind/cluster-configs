@@ -37,17 +37,17 @@ applications:
 #        ACM POLICIES - DEV          #
 ######################################
 
-  generic-config:
+  baseline:
     annotations:
       argocd.argoproj.io/sync-wave: "20"
     source:
       path: example-3/overlays/policies/dev/baseline
 
-  cluster-healthchecks:
+  health-checks:
     annotations:
       argocd.argoproj.io/sync-wave: "25"
     source:
-      path: example-3/overlays/policies/dev/cluster-healthchecks
+      path: example-3/overlays/policies/dev/health-checks
 
 
 ######################################
