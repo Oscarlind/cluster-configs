@@ -37,11 +37,11 @@ applications:
 #        ACM POLICIES - DEV          #
 ######################################
 
-  baseline:
-    annotations:
-      argocd.argoproj.io/sync-wave: "20"
-    source:
-      path: example-3/overlays/policies/dev/baseline
+  # baseline:
+  #   annotations:
+  #     argocd.argoproj.io/sync-wave: "20"
+  #   source:
+  #     path: example-3/overlays/policies/dev/baseline
 
   health-checks:
     annotations:
