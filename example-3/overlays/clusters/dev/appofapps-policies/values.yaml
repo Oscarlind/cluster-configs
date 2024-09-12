@@ -41,7 +41,7 @@ applications:
     annotations:
       argocd.argoproj.io/sync-wave: "20"
     source:
-      path: overlays/policies/dev/
+      path: example-3/overlays/policies/dev/
 
   # cluster-healthchecks:
   #   annotations:
