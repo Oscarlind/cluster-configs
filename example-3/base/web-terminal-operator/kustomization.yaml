@@ -5,9 +5,4 @@ kind: Kustomization
 namespace: openshift-operators
 
 resources:
-- ../../../../base/web-terminal-operator/
-
-patches:
-- path: patch-channel.yaml
-  target:
-    kind: Subscription
+- operator/subscription.yaml

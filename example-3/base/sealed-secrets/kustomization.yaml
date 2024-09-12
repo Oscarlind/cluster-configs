@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- resources/crd.yaml
+- resources/deployment.yaml
+- resources/proxier.yaml
+- resources/secret-role.yaml
+- resources/service-account.yaml
+- resources/service.yaml
+- resources/unsealer-cluster-role.yaml

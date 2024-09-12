@@ -15,16 +15,12 @@ policyDefaults:
   controls:
   - CM Baseline Configuration
   standards:
-  - Baseline 2023v1
+  - Baseline 2024v1
   remediationAction: inform
   complianceType: musthave
   pruneObjectBehavior: "DeleteIfCreated"
 
 policies:
-- name: chrony
-  manifests:
-  - path: chrony/
-  remediationAction: enforce
 
 - name: sealed-secrets
   consolidateManifests: false
@@ -38,21 +34,20 @@ policies:
   - path: web-terminal-operator/
   remediationAction: enforce
 
-- name: image-registry
-  manifests:
-  - path: image-registry/
-  remediationAction: enforce
-  pruneObjectBehavior: "None"
-  dependencies:
-  - name: odf-storagecluster-healthcheck
+# - name: image-registry
+#   manifests:
+#   - path: image-registry/
+#   remediationAction: enforce
+#   pruneObjectBehavior: "None"
+#   dependencies:
+#   - name: odf-storagecluster-healthcheck
 
 policySets:
 - name: "baseline-configuration"
   description: "Setting up the baseline configuration"
   policies:
-  - chrony
   - sealed-secrets
   - web-terminal-operator
-  - image-registry
+  # - image-registry
   placement:
     placementPath: placement.yaml

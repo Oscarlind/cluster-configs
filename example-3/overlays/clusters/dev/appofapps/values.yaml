@@ -1,0 +1,59 @@
+---
+default:
+  app:
+    annotations:
+      argocd.argoproj.io/compare-options: IgnoreExtraneous
+    enabled: true
+    enableAutoSync: true
+    autoSyncPrune: true
+    project: cluster-config
+    destination:
+      namespace: openshift-gitops
+      server: https://kubernetes.default.svc
+    source:
+      repoURL: git@github.com:Oscarlind/cluster-configs.git
+      targetRevision: main
+
+projects:
+  cluster-config:
+    annotations:
+      argocd.argoproj.io/sync-wave: "-2"
+    description: Project for ACM policies
+    namespace: openshift-gitops
+    sourceRepos:
+      - git@github.com:Oscarlind/cluster-configs.git
+    destinations: |
+      - namespace: '*'
+        server: https://kubernetes.default.svc
+    extraFields: |
+      clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+
+applications:
+
+
+######################################
+#        ACM POLICIES - DEV          #
+######################################
+
+  generic-config:
+    annotations:
+      argocd.argoproj.io/sync-wave: "20"
+    source:
+      path: overlays/policies/dev/
+
+  # cluster-healthchecks:
+  #   annotations:
+  #     argocd.argoproj.io/sync-wave: "25"
+  #   source:
+  #     path: overlays/policies/common/cluster-healthchecks
+
+
+######################################
+#        ACM POLICIES - QA           #
+######################################
+
+######################################
+#        ACM POLICIES - PROD         #
+######################################
