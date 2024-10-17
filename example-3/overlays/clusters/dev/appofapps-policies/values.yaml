@@ -19,7 +19,7 @@ projects:
     annotations:
       argocd.argoproj.io/sync-wave: "-2"
     description: Project for ACM policies
-    namespace: openshift-gitops
+    namespace: platform-gitops
     sourceRepos:
       - https://github.com/Oscarlind/cluster-configs
     destinations: |
