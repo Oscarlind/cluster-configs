@@ -8,7 +8,7 @@ default:
     autoSyncPrune: true
     project: cluster-config
     destination:
-      namespace: openshift-gitops
+      namespace: platform-gitops
       server: https://kubernetes.default.svc
     source:
       repoURL: https://github.com/Oscarlind/cluster-configs
